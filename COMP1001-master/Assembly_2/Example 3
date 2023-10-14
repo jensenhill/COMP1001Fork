@@ -1,0 +1,50 @@
+; A simple template for assembly programs.
+.386  ; Specify instruction set
+.model flat, stdcall  ; Flat memory model, std. calling convention
+.stack 4096 ; Reserve stack space
+ExitProcess PROTO, dwExitCode: DWORD  ; Exit process prototype
+
+.data ; data segment
+	
+	x DWORD 35 ;Course work mark
+	k DWORD 60 ;Course work max
+	y DWORD 45 ;Test mark
+	d DWORD 55 ;Test max
+
+	storage DWORD ? ;Variable to store first part of equation
+
+.code ; code segment
+
+main PROC ; main procedure
+
+	MOV eax, 50 ; Load 50 into register
+	MOV ecx, x ; Load x (35) into register
+	MUL ecx ; Multiply eax (50) by ecx (x/35)
+	MOV ecx, d ; Load d (55) into the register
+	MUL ecx ; Multiply eax (1750) by d (55) Result 96250
+
+	MOV storage, eax ;Move answer into variable
+
+	MOV eax, 50 ; Load 50 into register
+	MOV ecx, y
+	MUL ecx
+	MOV ecx, k
+	MUL ecx
+
+	MOV ecx, storage
+	ADD eax, ecx
+	MOV storage, eax ;Move eax into storage
+
+	MOV eax, k
+	MOV ecx, d
+	MUL ecx
+
+	MOV ecx, storage ;Load the storage into ecx
+
+	xchg eax, ecx ; Swap contents of ecx with eax
+
+	DIV ecx ; Divide eax by ecx
+	MOV storage, eax
+  
+main ENDP ; exit main procedure
+END main  ; stop assembling
